@@ -1,35 +1,144 @@
 # SkillSync
-> A peer-learning and project partner matching desktop app for computer science students.
+> A peer-learning and project partner matching desktop application powered by core Data Structures and Algorithms.
+
+<div align="center">
+
+[![Java](https://img.shields.io/badge/Java-17%20LTS-orange.svg)](https://www.oracle.com/java/)
+[![JavaFX](https://img.shields.io/badge/JavaFX-17-blue.svg)](https://openjfx.io/)
+[![Maven](https://img.shields.io/badge/Maven-3.8+-red.svg)](https://maven.apache.org/)
+[![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+[![Author](https://img.shields.io/badge/GitHub-AmirSaad1417-181717.svg)](https://github.com/AmirSaad1417)
+
+> **Academic Focus:** Data Structures & Algorithms (DSA)  
+> **Course:** 3rd-Semester Computer Science / DSA Lab Project  
+> **Repository:** [https://github.com/AmirSaad1417/SkillSync](https://github.com/AmirSaad1417/SkillSync)
+
+</div>
+
+---
+
+## The Problem
+
+Finding a suitable project partner at university can be frustrating and inefficient. 
+
+Students often want to collaborate on semester coursework, hackathons, or capstone projects, but they rarely know the true strengths of their peers. Some students excel at Data Structures and Algorithms, while others are stronger in Artificial Intelligence, Robotics, or UI/UX Design. Relying on casual conversations or random group chats often leads to mismatched skills and unbalanced project teams.
 
 ---
 
 ## The Idea
 
-Finding the right project partner at university can be difficult. 
+**SkillSync** was developed as a 3rd-semester DSA project to solve this problem using **data structures, searching, set intersection, and comparator sorting**.
 
-Students often want to team up for semester projects, hackathons, or study groups, but they usually don't know who has the skills they need. Some students are great at Data Structures and Algorithms, while others excel in Artificial Intelligence, Robotics, or UI/UX Design.
+Instead of guessing someone's abilities, students take short objective assessments in specific skill domains. If a student passes with a score of **7 out of 10** or higher, that domain is marked as qualified. SkillSync then compares qualified domains across the student roster, identifies shared technical tracks, and ranks compatible peers so students can send teaming invitations and form verified partnerships.
 
-**SkillSync** was created to solve this problem. 
-
-Instead of guessing someone's skills or asking around in group chats, students take short skill assessments directly inside the app. If a student passes a domain test, that skill is marked as qualified. SkillSync then finds other students who share the same qualified interests and helps them connect, send partnership requests, and form project teams.
+The system was originally built around pure Java data structures and algorithmic workflows. A modern JavaFX desktop interface was later added to provide an intuitive, polished user experience.
 
 ---
 
 ## How It Works
 
-The workflow is simple and straightforward:
+```text
+Student
+   ↓
+JavaFX Desktop UI
+   ↓
+Skill Assessment (10 MCQs)
+   ↓
+Score Evaluation (Score ≥ 7 / 10)
+   ↓
+Qualified Domains Set
+   ↓
+Peer Discovery & Intersection
+   ↓
+Comparator Ranking (Shared Interests)
+   ↓
+Match Request (Pending → Accepted / Declined)
+   ↓
+Finalized Partnership
+   ↓
+Atomic CSV Persistence
+```
 
-1. **Sign Up or Log In:** Create an account with your username, email, and password.
-2. **Take a Skill Assessment:** Answer 10 multiple-choice questions in one of four tracks:
-   - Data Structures & Algorithms (DSA)
-   - Artificial Intelligence (AI)
-   - Robotics
-   - UI/UX Design
-3. **Get Qualified:** Score **7 out of 10** or higher to earn a qualified domain badge.
-4. **Discover Compatible Peers:** Open *Find Peers* to view students who share your qualified domains.
-5. **Send a Match Request:** Choose a skill track and send an invitation to team up.
-6. **Accept or Decline:** The recipient can accept the invitation or decline it.
-7. **Finalized Partnership:** When accepted, both students are paired together and their profiles show their new project teammate.
+1. **Register / Login:** Authenticate into your local student profile.
+2. **Take an Assessment:** Answer 10 randomized MCQs in DSA, AI, Robotics, or UI/UX Design.
+3. **Earn Qualification:** Score **7 / 10** or higher to qualify for that skill domain.
+4. **Discover Peers:** The system matches your qualified skills against other students.
+5. **Send Match Request:** Select a shared technical track and send an invitation.
+6. **Accept or Decline:** The recipient reviews incoming requests and decides to accept or decline.
+7. **Finalized Partnership:** Once accepted, both students become paired teammates, visible across dashboards and profiles.
+
+---
+
+## Data Structures & Algorithms (DSA)
+
+The core logic of SkillSync relies on classical data structures and algorithms implemented in standard Java.
+
+### 1. Data Structures Used
+
+| Data Structure | Implementation | Where It Is Used | Why It Was Chosen |
+| :--- | :--- | :--- | :--- |
+| **Hash Map** | `HashMap<String, Integer>` | `User.java` (`scores`) | Provides $O(1)$ amortized lookup and updates for individual domain test scores (`dsa`, `ai`, `robotics`, `design`). |
+| **Object Cache** | `HashMap<String, List<Question>>` | `FileHandler.java` (`questionCache`) | Memoizes question banks in memory after first CSV read, avoiding redundant disk I/O. |
+| **Dynamic Array** | `ArrayList<User>` | `FileHandler.java`, `SkillSyncApp.java` | Efficient indexed storage for the student roster, enabling linear scans and stream-based filtering. |
+| **Dynamic Array** | `ArrayList<Question>` | `TestEngine.java`, `Question.java` | Stores question banks loaded from CSV, supporting in-place shuffling and sublist windowing. |
+| **List** | `List<String>` | `User.java` (`getQualifiedInterests`) | Dynamically collects qualified domain names for set comparison. |
+| **State Machine Record** | `MatchRequest` (inner class) | `MatchManager.java` | Encapsulates request state transitions (`PENDING`, `ACCEPTED`, `DECLINED`). |
+
+---
+
+### 2. Algorithms Used
+
+| Algorithm / Operation | Where It Is Used | How It Works | Time Complexity |
+| :--- | :--- | :--- | :---: |
+| **Fisher-Yates Shuffle** | `TestEngine.conductTest` (`Collections.shuffle`) | Randomly permutes the domain question pool in-place to ensure each test attempt receives a unique question order. | $O(Q)$ |
+| **Set Intersection** | `MatchManager.countSharedInterests` | Compares two students' qualified domain lists: $\text{Interests}(A) \cap \text{Interests}(B)$ to quantify shared technical competency. | $O(k)$ |
+| **Filtering Predicate** | `MatchManager.findBestMatches` | Scans the student roster via linear search, filtering out the current user and students who are already paired. | $O(N)$ |
+| **Comparator Ranking** | `MatchManager.findBestMatches` (`List.sort`) | Sorts candidate peers in descending order based on the count of shared qualified domains using Timsort. | $O(M \log M)$ |
+| **Top-K Windowing** | `MatchManager.findBestMatches` (`subList`) | Extracts the top 5 most compatible candidate profiles from the sorted recommendation list. | $O(1)$ |
+| **Multi-Criteria Sorting** | `LeaderboardView.java`, `User.java` | Sorts students by total qualified domain count descending, then by average score descending, and alphabetically by username. | $O(N \log N)$ |
+| **Linear Search** | `FileHandler.java`, `LoginView.java` | Performs case-insensitive matching to verify credentials and detect duplicate registrations. | $O(N)$ |
+| **Atomic Replacement** | `FileHandler.saveUsers` | Writes data to a temporary `.tmp` file and replaces the destination file atomically (`StandardCopyOption.REPLACE_EXISTING`) to prevent corrupted records. | $O(N)$ |
+
+*Note: $N$ = total registered students, $M$ = eligible candidate students ($M \le N$), $Q$ = question pool size ($Q \approx 10\text{--}20$), $k$ = number of domains ($k \le 4$).*
+
+---
+
+### 3. Complexity Overview
+
+| System Operation | Target Class | Time Complexity | Auxiliary Space |
+| :--- | :--- | :---: | :---: |
+| **Student Credential Lookup** | `FileHandler` / `LoginView` | $O(N)$ | $O(1)$ |
+| **Domain Score Access** | `User.getScore` | $O(1)$ | $O(1)$ |
+| **Qualification Check** | `User.isQualified` | $O(1)$ | $O(1)$ |
+| **Question Shuffling & Selection** | `TestEngine.conductTest` | $O(Q)$ | $O(1)$ |
+| **Candidate Peer Matching** | `MatchManager.findBestMatches` | $O(N + M \log M)$ | $O(M)$ |
+| **Leaderboard Ranking** | `LeaderboardView` | $O(N \log N)$ | $O(N)$ |
+| **CSV Full State Save** | `FileHandler.saveUsers` | $O(N)$ | $O(N)$ |
+
+---
+
+### 4. DSA Concept Architecture
+
+```text
+                    SkillSync DSA Core
+                             │
+              ┌──────────────┼──────────────┐
+              │              │              │
+        Data Structures  Algorithms    Complexity
+              │              │              │
+           HashMap        Shuffling       O(1)
+          ArrayList      Intersection     O(N)
+         State Records     Timsort     O(N log N)
+              │              │
+              └──────────────┼──────────────┘
+                             │
+                      System Features
+                             │
+              ┌──────────────┼──────────────┐
+              ▼              ▼              ▼
+         Assessment    Peer Matching   Leaderboard
+       (Randomized)   (Set Overlap)   (Comparator)
+```
 
 ---
 
@@ -39,65 +148,53 @@ The workflow is simple and straightforward:
 
 ### Student Dashboard
 ![Student Dashboard](docs/images/dashboard.png)
-*Track your domain competency, assessment scores, and team status at a glance.*
+*Personal competency metrics, qualification badges, and quick action shortcuts.*
 
 <br>
 
 ### Peer Discovery & Matching
 ![Find Peers](docs/images/find_peers.png)
-*Find students who share your qualified skill tracks and send partnership requests.*
+*Ranks peers by shared qualified skill domains ($\text{Skills}_A \cap \text{Skills}_B$).*
 
 <br>
 
 ### Skill Assessment
 ![Skill Assessment](docs/images/assessment.png)
-*Take 10 randomized multiple-choice questions to prove your skills and earn qualification.*
+*Randomized 10-MCQ testing with score-based qualification ($7/10$).*
 
 <br>
 
 ### Admin Management & Monitoring
 ![Admin Dashboard](docs/images/admin_dashboard.png)
-*View platform statistics, all registered students, request audit logs, and finalized partnerships.*
+*Administrative telemetry: live student directory, participation statistics, and audit logs.*
 
 </div>
 
 ---
 
-## System Flow & Architecture
+## System Architecture
 
-SkillSync is designed as a classic **Three-Tier Desktop Application**:
+SkillSync follows a clean **Three-Tier Desktop Architecture**:
 
 ```mermaid
 flowchart TD
-    User["Student / Admin"] --> UI["JavaFX Desktop GUI\n(Login, Dashboard, Assessment, Peers)"]
-    UI --> Logic["Java Business Logic\n(User, TestEngine, MatchManager, AdminPanel)"]
-    Logic --> Storage["FileHandler & CSV Files\n(users.csv, match_requests.csv, matches.csv)"]
+    User["Student / Admin"] --> UI["Presentation Layer (JavaFX 17 GUI)\nLogin, Dashboard, Assessment, Peers, Leaderboard"]
+    UI --> Logic["Business Logic Layer (Core Java)\nUser, Question, TestEngine, MatchManager, AdminPanel"]
+    Logic --> Storage["Persistence Layer (FileHandler & CSV Files)\nusers.csv, match_requests.csv, matches.csv"]
 ```
 
 ![Architecture & Workflow Overview](docs/images/architecture.jpg)
 
-For a complete deep-dive with formal diagrams, state machines, and data pipelines, see **[docs/ARCHITECTURE_AND_WORKFLOW.md](docs/ARCHITECTURE_AND_WORKFLOW.md)**.
-
----
-
-## Main Features
-
-- **Interactive Multiple-Choice Quizzes:** Randomized 10-question tests with immediate scoring and review.
-- **Competency Qualification:** A clear standard of **7 / 10** required for domain certification.
-- **Smart Peer Recommendation:** Automatically filters out already-paired students and ranks candidate peers by shared qualified skills.
-- **Complete Request Lifecycle:** Transparent `Pending` $\rightarrow$ `Accepted` or `Declined` teaming invitations.
-- **Student Leaderboard:** Podium rankings (🥇 Gold, 🥈 Silver, 🥉 Bronze), domain count badges, and student search.
-- **Administrator Console:** Live telemetry for student rosters, pass rates, match logs, and confirmed teams.
-- **Crash-Resilient CSV Storage:** Atomic temporary file writes (`.tmp` $\rightarrow$ `.csv`) guarantee zero data corruption.
+For a complete architectural specification with UML state machines and data flow pipelines, see **[docs/ARCHITECTURE_AND_WORKFLOW.md](docs/ARCHITECTURE_AND_WORKFLOW.md)**.
 
 ---
 
 ## Built With
 
-- **Java 17 (LTS)** — Modern core object-oriented programming
-- **JavaFX 17** — Hardware-accelerated desktop user interface and custom CSS styling
-- **Apache Maven** — Dependency and build lifecycle management
-- **Flat CSV Persistence** — Lightweight, human-readable data storage without SQL or database setup
+- **Java 17 (LTS)** — Core programming language, collections framework, and algorithms
+- **JavaFX 17** — Modern hardware-accelerated desktop UI and CSS styling
+- **Apache Maven** — Build automation, testing, and dependency management
+- **Flat CSV Storage** — Human-readable, crash-resilient local persistence
 
 ---
 
@@ -117,12 +214,12 @@ SkillSync/
 │   │   ├── java/com/skillsync/
 │   │   │   ├── AppLauncher.java      # Application startup entry point
 │   │   │   ├── SkillSyncApp.java     # JavaFX lifecycle & window router
-│   │   │   ├── User.java             # Student profile and score data model
-│   │   │   ├── Question.java         # Multiple-choice question entity
-│   │   │   ├── TestEngine.java       # Quiz shuffling and grading logic
-│   │   │   ├── MatchManager.java     # Peer recommendation and request workflow
-│   │   │   ├── AdminPanel.java       # Platform analytics and reports
-│   │   │   ├── FileHandler.java      # Atomic CSV file reader and writer
+│   │   │   ├── User.java             # Student profile & HashMap scores model
+│   │   │   ├── Question.java         # Immutable MCQ entity
+│   │   │   ├── TestEngine.java       # Quiz shuffling & grading engine
+│   │   │   ├── MatchManager.java     # Peer matching & comparator ranking
+│   │   │   ├── AdminPanel.java       # System telemetry & analytics
+│   │   │   ├── FileHandler.java      # Atomic CSV reader & writer
 │   │   │   └── ui/                   # JavaFX view components
 │   │   │       ├── LoginView.java
 │   │   │       ├── RegisterView.java
@@ -137,8 +234,8 @@ SkillSync/
 │   │   │       └── AdminShellView.java
 │   │   └── resources/
 │   │       ├── styles/skillsync.css  # Modern desktop stylesheet
-│   │       └── questions/            # Question banks for each skill track
-│   └── test/java/com/skillsync/ui/   # Automated headless UI test suites
+│   │       └── questions/            # MCQ datasets (DSA, AI, Robotics, Design)
+│   └── test/java/com/skillsync/ui/   # 4 automated test suites
 │
 ├── docs/                             # Documentation and visual assets
 │   ├── ARCHITECTURE_AND_WORKFLOW.md  # Detailed architecture specification
@@ -159,12 +256,11 @@ SkillSync/
 - **Apache Maven 3.8+** (or use the built-in Maven in IntelliJ IDEA / Eclipse)
 
 ### Option 1: 1-Click Run (Windows)
-Double-click **`run-gui.bat`** in the project root. It will automatically resolve JavaFX dependencies and launch the application window.
+Double-click **`run-gui.bat`** in the project root. It will resolve JavaFX dependencies and launch the application immediately.
 
 ### Option 2: Run with Maven
-Clone the repository and run:
 ```bash
-git clone https://github.com/your-username/SkillSync.git
+git clone https://github.com/AmirSaad1417/SkillSync.git
 cd SkillSync
 mvn clean compile
 mvn javafx:run
@@ -181,8 +277,6 @@ mvn javafx:run
 
 ## Demo Accounts
 
-You can test the application right away using these preloaded accounts:
-
 | Role | Username / Email | Password | Details |
 | :--- | :--- | :--- | :--- |
 | **Administrator** | `admin` | `admin123` | Full access to Admin Console, student directory, and reports |
@@ -196,7 +290,7 @@ You can test the application right away using these preloaded accounts:
 
 SkillSync began as a **3rd-Semester Computer Science / Data Structures & Algorithms Lab university project**. 
 
-The goal was to build a working, object-oriented system that could solve a practical campus problem: finding project partners based on proven technical skills. It was later expanded from its initial command-line interface into a full modern JavaFX desktop application with dedicated student and administrator experiences.
+The goal was to demonstrate practical applications of basic data structures (`HashMap`, `ArrayList`, sets, arrays) and algorithms (filtering, set intersection, in-place shuffling, and multi-field comparator sorting) to solve a real campus problem: finding project teammates based on verified competencies. The project was later enhanced with a modern JavaFX desktop interface to make it user-friendly while preserving its underlying algorithmic foundation.
 
 ---
 
@@ -205,7 +299,7 @@ The goal was to build a working, object-oriented system that could solve a pract
 SkillSync was built for an academic university context, so it has some intentional design boundaries:
 - **Offline / Local Desktop App:** The application runs locally on a single machine; it does not connect to a cloud database or remote web server.
 - **CSV Data Storage:** Data is stored in local `.csv` files rather than a SQL database, keeping the project lightweight and simple to run without installing database services.
-- **Academic Authentication:** Passwords are stored locally for project demonstration purposes. In a real-world production web app, industry-standard salted hashing (e.g., BCrypt) would be required.
+- **Academic Authentication:** Passwords are stored locally for project demonstration purposes. In a production web application, industry-standard salted hashing (e.g., BCrypt) would be required.
 
 ---
 
