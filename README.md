@@ -252,26 +252,54 @@ SkillSync/
 ## Getting Started
 
 ### Prerequisites
-- **Java Development Kit (JDK) 17** or higher
-- **Apache Maven 3.8+** (or use the built-in Maven in IntelliJ IDEA / Eclipse)
+To run SkillSync on any PC or laptop, ensure you have:
+- **Java Development Kit (JDK) 17** or higher ([Download JDK 17](https://www.oracle.com/java/technologies/downloads/#java17))
+- **Apache Maven 3.8+** (or use the built-in Maven bundled with IntelliJ IDEA / Eclipse)
 
-### Option 1: 1-Click Run (Windows)
-Double-click **`run-gui.bat`** in the project root. It will resolve JavaFX dependencies and launch the application immediately.
+---
 
-### Option 2: Run with Maven
+### Step 1: Download the Project to Your PC
+
+Choose whichever method is easiest for you:
+
+#### Method A: Download as a ZIP (No Git Required)
+1. At the top of this GitHub repository, click the green **`<> Code`** button.
+2. Click **Download ZIP**.
+3. Extract the downloaded `.zip` file to any folder on your computer.
+
+#### Method B: Clone via Git
+Open a terminal or command prompt and run:
 ```bash
 git clone https://github.com/AmirSaad1417/SkillSync.git
 cd SkillSync
+```
+
+---
+
+### Step 2: Run the Application on Your PC
+
+Choose your preferred way to start the app:
+
+#### ⚡ Option 1: 1-Click Run (Windows Users)
+Inside the extracted project folder, simply double-click **`run-gui.bat`**.  
+The script automatically locates your JavaFX dependencies and launches the desktop app immediately—no terminal commands needed!
+
+#### 💻 Option 2: Run via IntelliJ IDEA
+1. Open **IntelliJ IDEA**.
+2. Click **File $\rightarrow$ Open...** and select the **`SkillSync`** root folder (the folder containing `pom.xml`).
+3. If prompted with a security dialog, click **Trust Project**.
+4. Allow IntelliJ a few moments to automatically sync Maven dependencies.
+5. In the left project explorer, open:  
+   `src/main/java/com/skillsync/AppLauncher.java`
+6. Click the green **Run ▶️** button in the editor gutter.
+
+#### 🛠️ Option 3: Run via Maven (Terminal / macOS / Linux)
+Open your terminal in the project directory and run:
+```bash
 mvn clean compile
 mvn javafx:run
 ```
-
-### Option 3: Run in IntelliJ IDEA
-1. Open IntelliJ IDEA and choose **File $\rightarrow$ Open**.
-2. Select the `SkillSync` project folder (where `pom.xml` is located).
-3. If prompted, select **Trust Project** and let Maven sync dependencies.
-4. Navigate to `src/main/java/com/skillsync/AppLauncher.java`.
-5. Click the green **Run ▶️** button next to `main`.
+*(On macOS or Linux, ensure your terminal has `JAVA_HOME` pointing to JDK 17).*
 
 ---
 
