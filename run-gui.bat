@@ -1,0 +1,3 @@
+@echo off
+echo Starting SkillSync Modern Desktop Platform...
+powershell -NoProfile -ExecutionPolicy Bypass -Command "$jars = (Get-ChildItem -Recurse '%USERPROFILE%\.m2\repository\org\openjfx' -Filter '*.jar' | Select-Object -ExpandProperty FullName) -join ';'; java -cp ('target\classes;' + $jars) com.skillsync.AppLauncher"

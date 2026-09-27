@@ -1,0 +1,48 @@
+# Target build directory
+target/
+build/
+!.mvn/wrapper/maven-wrapper.jar
+
+# Temporary and swap files
+*.tmp
+*.log
+*.swp
+
+# IntelliJ IDEA
+.idea/
+*.iws
+*.iml
+*.ipr
+out/
+
+# Eclipse
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings/
+.springBeans
+.sts4-cache
+
+# NetBeans
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+
+# VS Code
+.vscode/
+
+# Operating System Files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Java Crash Logs
+hs_err_pid*
+replay_pid*
+
+# Internal development notes
+BRAIN.md
+CHANGELOG.md

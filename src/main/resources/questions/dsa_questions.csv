@@ -1,0 +1,10 @@
+Which data structure uses LIFO?,Queue,Heap,Stack,Array,C
+What is the time complexity of binary search?,O(n),O(log n),O(n log n),O(1),B
+Which data structure is FIFO?,Queue,Stack,Tree,Graph,A
+Which traversal is used in BST?,Inorder,Preorder,Postorder,Levelorder,A
+Which of these is not a linear structure?,Array,Queue,Stack,Graph,D
+What is used to avoid stack overflow?,Base Case,Loop,Heap,Queue,A
+Which sorting algorithm is fastest (on avg)?,Bubble,Selection,Merge,Linear,C
+HashMap stores?,Only keys,Only values,Key-value pairs,Index,C
+Which one is primitive in Java?,int,String,Object,Array,A
+What is size of boolean in Java?,1 byte,2 bytes,4 bytes,8 bytes,A

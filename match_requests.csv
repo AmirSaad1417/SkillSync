@@ -1,0 +1,12 @@
+sender,receiver,interest,status
+saad1234,Sha khan,design,PENDING
+sherry,saad,ai,ACCEPTED
+ali,Sha khan,ai,PENDING
+ali,sherry,ai,PENDING
+hamza,saad,ai,DECLINED
+nasym,hamza,ai,PENDING
+Abbas Khan,saad,ai,PENDING
+Usman,sherry,ai,PENDING
+Faisal khan,saad,ai,PENDING
+shawaiz,Sha khan,ai,PENDING
+ali,hamza,ai,ACCEPTED
